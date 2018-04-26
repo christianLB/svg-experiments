@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import TimeLineSVG from './components/timelinesvg';
+import Toasty from './components/misc/toasty';
 
 import TextboxDirectional from './components/UI/textbox_directional';
 
@@ -42,7 +43,6 @@ class Main extends Component {
                         margin Y: {this.state.marginAxisY}
                     </div>
                     <TextboxDirectional
-                        ref={this.txtdir}
                         onUpKey={this.moveUp.bind(this)}
                         onDownKey={this.moveDown.bind(this)}
                         onLeftKey={this.moveLeft.bind(this)}
@@ -50,14 +50,26 @@ class Main extends Component {
                         value={this.state.lastDirectionKey}
                         label={'mover'}
                     />
+                    <input
+                        type="button"
+                        value="Toasty"
+                        style={{width: '200px', marginTop: '30px'}}
+                        onClick={this.showToasty.bind(this)}
+                    />
                 </div>
                 <TimeLineSVG
                     ticks={this.state.ticks}
                     marginx={this.state.marginAxisX}
                     marginy={this.state.marginAxisY}
                 />
+                <Toasty
+                    ref={a => this.toasty = a}
+                />
             </div>
         );
+    }
+    showToasty() {
+        this.toasty.show();
     }
     handleDownTicks() {
         this.setState({
