@@ -3,6 +3,8 @@ import Axis from './axis';
 import ViewSpace from './view_space';
 import circles from './data/circles';
 
+import './timelinesvg.less';
+
 class TimeLineSVG extends React.Component {
     constructor(props) {
         super(props);

@@ -1,0 +1,78 @@
+@import '../../../styles/styles.less';
+@keys: k0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n0, kminus, kplus, kbackspace, kbackspace,
+ktab, q, w, e, r, t, y, u, i, o, p, kobrct, kcbrct, kpipe,
+kcaps, a, s, d, f, g, h, j, k, l, ksemicln, kquote, kenter, kenter,
+kshift, kshift, z, x, c ,v, b ,n, m, kmin, kmaj, kslash, kup, kshift, kshift,
+kctrl, kctrl, kalt, kalt, kspace, kspace, kspace, kspace, kalt, kalt, kctrl, kctrl, kleft, kdown, kright;
+@index: length(@keys);
+@backgroundColor: rgb(0,0,0);
+
+.keys(@keys; @index) when (@index > 0) {
+  .keys(@keys; (@index - 1));
+  @key: extract(@keys, @index);
+  &.@{key} {
+    grid-area:@key;
+    &::before {
+      content: '@{key}';
+    }
+  }
+}
+
+.actives(@keys; @index) when (@index > 0) {
+  .actives(@keys; (@index - 1));
+  @key: extract(@keys, @index);
+  &.@{key} .key.@{key} {
+    .uidactive();
+  }
+}
+
+.keyboard {
+  &:focus {
+    transition:270ms;
+    box-shadow: -1px 6px 3px 2px lighten(green, 20%);
+  }
+  .actives(@keys, @index);
+  border-radius: 15px;
+  box-shadow: -1px 6px 3px 2px green;
+  display: grid;
+  cursor: pointer;
+  justify-self: center;
+  align-self: center;
+  grid-area: uikeyboard;
+  background-color: @backgroundColor;
+  grid-template-rows: repeat(1fr, 5);
+  grid-template-columns: repeat(1fr, 15);
+  grid-gap:3px;
+  height:200px;
+  width:800px;
+  padding:20px;
+  outline: none;
+  transform: perspective(600px) rotateX(-325deg);
+  grid-template-areas:
+  'k0 n1 n2 n3 n4 n5 n6 n7 n8 n9 n0 kminus kplus kbackspace kbackspace'
+  'ktab q w e r t y u i o p kobrct kcbrct kpipe kpipe'
+  'kcaps a s d f g h j k l ksemicln kquote kenter kenter kenter'
+  'kshift kshift z x c v b n m kmin kmaj kslash . kup .'
+  'kctrl kctrl kalt kalt kspace kspace kspace kspace kspace kspace kspace kspace kleft kdown kright';
+  .key {
+    border: 1px solid green;
+    transition: 50ms;
+    color: green;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    box-shadow: 2px 2px green;
+    cursor:pointer;
+    &:hover {
+      background-color:green;
+      box-shadow: 2px 2px lighten(green, 20%);
+      color: black;
+    }
+    &:active {
+      .uidactive();
+    }
+    .keys(@keys, @index);
+  }
+}

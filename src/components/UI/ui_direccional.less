@@ -1,0 +1,43 @@
+@import '../../styles/styles.less';
+
+.uidirectional {
+  &.up div.up {
+      .uidactive;
+  }
+  &.down div.down {
+      .uidactive;
+  }
+  &.right div.right{
+      .uidactive;
+      }
+  &.left div.left{
+      .uidactive;
+  }
+  .boxes;
+  display:grid;
+  width:200px;height:80px;
+  grid-template-rows:1fr 1fr;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-areas:
+  '. up .'
+  'left down right';
+  div {
+    .boxes;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+    &.up {
+      grid-area: up
+    }
+    &.down {
+      grid-area: down
+    }
+    &.right {
+      grid-area: right
+    }
+    &.left {
+      grid-area: left
+    }
+  }
+}

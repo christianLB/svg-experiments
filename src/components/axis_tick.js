@@ -60,8 +60,9 @@ AxisTick.defaultProps = {
     value: 0,
     margin: 0,
     style: {
-        stroke: 'rgb(49,49,49)',
-        strokeWidth: '1',
+        // stroke: 'rgb(49,49,49)',
+        // fill: 'none',
+        // shapeRendering: 'crispEdges',
     },
     textStyle: {
         fontSize: '0.9em',

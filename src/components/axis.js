@@ -78,7 +78,8 @@ Axis.defaultProps = {
     intersection: 0,
     style: {
         stroke: 'rgb(49,49,49)',
-        strokeWidth: '1',
+        fill: 'none',
+        shapeRendering: 'crispEdges',
     },
 };
 
