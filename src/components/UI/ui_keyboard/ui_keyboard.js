@@ -77,6 +77,9 @@ class UiKeyboard extends React.Component {
             }
         });
     }
+    blur() {
+        this.focus();
+    }
     focus() {
         this.htmlContainer.current.focus();
     }
@@ -88,6 +91,7 @@ class UiKeyboard extends React.Component {
                     onKeyDown={this._keyDown.bind(this)}
                     onKeyUp={this._keyUp.bind(this)}
                     tabIndex={1}
+                    onBlur={this.blur.bind(this)}
                     ref={this.htmlContainer}
                 >
                     {this.getKeys()}

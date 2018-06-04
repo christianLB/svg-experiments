@@ -8,6 +8,7 @@ module.exports = {
         path: __dirname,
         filename: "bundle.js"
     },
+    devServer: { inline: true },
     module: {
         rules: [
             {test: /\.less$/i,  use: ExtractTextPlugin.extract([ 'css-loader', 'less-loader'])},

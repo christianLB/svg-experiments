@@ -4,6 +4,8 @@ import Toasty from './components/misc/toasty';
 import UiKeyboard from './components/UI/ui_keyboard/ui_keyboard';
 import UiWatcher from './components/UI/ui_watcher';
 import LetterGame from './components/letter_game';
+import {Power2, TimelineMax} from 'gsap/all';
+
 
 import './styles/styles.less';
 
@@ -24,7 +26,11 @@ class Main extends Component {
     // constructor
     componentDidMount() {
        this.keyboard.current.focus();
-
+       let tl = new TimelineMax({repeat: -1, yoyo: true});
+       tl.to(document.body, 10, {
+         backgroundPosition: '1000px -200px',
+         ease: Power2.easeOut,
+       });
        setInterval(()=>{
            this.levelUp();
        }, 30000);

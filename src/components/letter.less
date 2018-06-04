@@ -8,8 +8,10 @@
   height: @size;
   justify-content: center;
   left:50%;
-  position: relative;
+  position: absolute;
+  text-transform: uppercase;
   width: @size;
+  z-index: 1000;
   .exp {
     background-color:#FFFFFF;
     border-radius: 50%;
@@ -18,6 +20,7 @@
     position: absolute;
     width: 5px;
     z-index: -1;
+    opacity: 0,
   }
   .exp2 {
       border: 0.6px solid white;
@@ -25,8 +28,9 @@
       height: 1px;
       position: absolute;
       width: 1px;
+      opacity: 0,
     }
-}
+} 
 /* @lettercolor: rgba(255, 255, 255, 1);
 .letter {
     position: absolute;
