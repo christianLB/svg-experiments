@@ -34,7 +34,7 @@
     "url-loader": "^0.5.9"
   },
   "scripts": {
-    "dev": "webpack-dev-server --hot",
+    "dev": "webpack-dev-server  --hot",
     "start": "webpack-dev-server --hot"
   },
   "repository": {
