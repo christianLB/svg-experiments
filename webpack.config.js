@@ -8,14 +8,14 @@ module.exports = {
         path: __dirname,
         filename: "bundle.js"
     },
-    devServer: { inline: true },
+    devServer: { inline: true, port: 8080 },
     module: {
         rules: [
             {test: /\.less$/i,  use: ExtractTextPlugin.extract([ 'css-loader', 'less-loader'])},
             {test: /\.css/i,  use: ExtractTextPlugin.extract(['css-loader'])},
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader", query: {presets: ['react']}},
             {enforce: "pre", test: /\.js$/, exclude: /node_modules/, loader: "eslint-loader"},
-            {test: /\.(gif|jpe?g|png|svg)$/, loader: 'url-loader?limit=25000'}, 
+            {test: /\.(gif|jpe?g|png|svg)$/, loader: 'url-loader?limit=25000'},
             {test: /\.(eot|ttf|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader'}
         ]
     },
