@@ -31,9 +31,9 @@ class Letter extends Component {
           delay: this.getRandom(1, 20),
         }, 0.1);
         this.caer.add(c);
-        /* this.caer.to(this.container.current, this.speed,
+        this.caer.to(this.container.current, this.speed,
           {bottom: -this.fontSize, ease: Circ.easeIn},
-        ); */
+        );
         c.eventCallback('onComplete', () => {
           this.caer.pause();
           this.props.onComplete(this);
