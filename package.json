@@ -34,7 +34,7 @@
     "url-loader": "^0.5.9"
   },
   "scripts": {
-    "dev": "webpack-dev-server --port 8080 --inline --hot",
+    "dev": "webpack-dev-server --port=$PORT --inline --hot",
     "start": "webpack-dev-server --hot"
   },
   "repository": {
