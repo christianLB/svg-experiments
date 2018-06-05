@@ -27,7 +27,7 @@ class Main extends Component {
     componentDidMount() {
        this.keyboard.current.focus();
        let tl = new TimelineMax({repeat: -1, yoyo: true});
-       tl.to(document.body, 1000, {
+       tl.to(document.body, 100, {
          backgroundPosition: '1000px -200px',
          ease: Power2.easeOut,
        });

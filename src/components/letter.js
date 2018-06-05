@@ -12,7 +12,7 @@ class Letter extends Component {
         this.fontSize = this.getRandom(20, 90);
         this.explode = new TimelineMax({callbackScope: this});
         this.caer = new TimelineMax({callbackScope: this});
-        this.speed = 5;
+        this.speed = 10;
     }
     componentDidMount() {
         this.caida();
@@ -21,28 +21,30 @@ class Letter extends Component {
         return Math.floor(Math.random() * (max - min) ) + min;
     }
     caida() {
-        let c = TweenMax.to(this.container.current, 2, {bottom: 0});
-        this.caer.to(this.container.current, 0, {opacity: 0});
-        this.caer.to(this.container.current, 0, {
-          bottom: document.body.offsetHeight,
-          left: this.getRandom(0, this.props.maxX),
-          fontSize: this.getRandom(20, 90),
-          opacity: 1,
-          delay: this.getRandom(1, 20),
-        }, 0.1);
-        this.caer.add(c);
-        this.caer.to(this.container.current, this.speed,
-          {bottom: -this.fontSize, ease: Circ.easeIn},
-        );
-        c.eventCallback('onComplete', () => {
-          this.caer.pause();
-          this.props.onComplete(this);
-          this.speed = 1;
-          this.fontSize = this.getRandom(20, 90);
-          // this.caer.restart();
-          this.caida();
+        this.speed = this.speed>=0.5?this.speed - 0.08 : 0.5;
+        let x = this.getRandom(-550, 550);
+        this.c = TweenMax.fromTo(
+            [this.container.current],
+            this.speed,
+            // from
+            {
+              x: x,
+              y: -35,
+              fontSize: this.getRandom(20, 90),
+            },
+            // to
+            {
+              y: (document.body.offsetHeight +
+                 this.container.current.offsetHeight),
+              ease: Circ.easeIn,
+              rotation: `+=${this.getRandom(0.2, 5)*360}`,
+            },
+        ).delay(this.getRandom(1, 20));
+
+        this.c.eventCallback('onComplete', () => {
+            this.props.onComplete(this);
+            this.caida();
         });
-        this.caer.play();
     }
     destroy() {
       let letter = this.container.current;
@@ -57,9 +59,8 @@ class Letter extends Component {
       }, 0.1);
       explode.set([exp, exp2], {scale: 1});
       explode.eventCallback('onComplete', () => {
-        this.fontSize = this.getRandom(20, 90);
         this.explode.restart().pause();
-        this.caer.restart().pause();
+        this.c.pause();
         this.caida();
       });
       // explode2 /////////////////////////
@@ -73,7 +74,7 @@ class Letter extends Component {
       explode.to(exp, 0.5, {backgroundColor: 'yellow'}, 0.3);
       explode.to(exp, 0.5, {backgroundColor: 'red', opacity: 0}, 0.6);
       explode.to(letter, 0.2, {opacity: 0}, 0.6);
-      explode.to(letter, 1.2, {scale: 2, color: 'yellow', ease: Expo.easeOut}
+      explode.to(letter, 1.2, {scale: 1.4, color: 'yellow', ease: Expo.easeOut}
       , 0.1);
       this.explode.play();
     }
