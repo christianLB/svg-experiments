@@ -13,6 +13,7 @@ class Letter extends Component {
         this.explode = new TimelineMax({callbackScope: this});
         this.caer = new TimelineMax({callbackScope: this});
         this.speed = 10;
+        this.active = false;
     }
     componentDidMount() {
         this.caida();
@@ -21,7 +22,8 @@ class Letter extends Component {
         return Math.floor(Math.random() * (max - min) ) + min;
     }
     caida() {
-        this.speed = this.speed>=0.5?this.speed - 0.08 : 0.5;
+        this.active = true;
+        this.speed = this.speed>=3?this.speed - 0.08 : 0.5;
         let x = this.getRandom(-550, 550);
         this.c = TweenMax.fromTo(
             [this.container.current],
@@ -42,15 +44,23 @@ class Letter extends Component {
         ).delay(this.getRandom(1, 20));
 
         this.c.eventCallback('onComplete', () => {
-            this.props.onComplete(this);
+            if (this.isActive()) {
+                this.props.onComplete(this);
+            }
             this.caida();
         });
     }
+    isActive() {
+       return this.active;
+    }
     destroy() {
       let letter = this.container.current;
+      this.c.kill({rotation: false}, letter);
+
       let exp = letter.querySelector('.exp');
       let exp2 = letter.querySelector('.exp2');
       let explode = this.explode;
+      this.active = false;
 
       explode.to([exp, exp2], 0, {
         width: `${this.fontSize}px`,

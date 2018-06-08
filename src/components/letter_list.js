@@ -17,7 +17,11 @@ class LetterList extends Component {
         Array.from(new Array(this.state.maxLetters)).map((x, i) => {
             this.addLetter();
         });
-        // this.setState({letters: this.list});
+    }
+    destroyAll() {
+      this.list.map((letter, i, arr) => {
+          letter.current.destroy();
+      });
     }
     getRandom(min, max) {
         return Math.floor(Math.random() * (max - min) ) + min;
@@ -30,9 +34,10 @@ class LetterList extends Component {
     keyPress(key) {
         let hit = false;
         this.state.letters.some((letter, i, arr) => {
-            if (letter.props.character===key) {
+            let Letter = this.list[letter.props.refIndex].current;
+            if (letter.props.character===key && Letter.isActive()) {
                 hit = true;
-                this.list[letter.props.refIndex].current.destroy();
+                Letter.destroy();
                 this.props.onHit(letter);
             }
         });

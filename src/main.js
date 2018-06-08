@@ -4,7 +4,8 @@ import Toasty from './components/misc/toasty';
 import UiKeyboard from './components/UI/ui_keyboard/ui_keyboard';
 import UiWatcher from './components/UI/ui_watcher';
 import LetterGame from './components/letter_game';
-import {Power2, TimelineMax} from 'gsap/all';
+import Background from './components/background';
+import {TweenMax} from 'gsap/all';
 
 
 import './styles/styles.less';
@@ -26,11 +27,6 @@ class Main extends Component {
     // constructor
     componentDidMount() {
        this.keyboard.current.focus();
-       let tl = new TimelineMax({repeat: -1, yoyo: true});
-       tl.to(document.body, 100, {
-         backgroundPosition: '1000px -200px',
-         ease: Power2.easeOut,
-       });
        setInterval(()=>{
            this.levelUp();
        }, 30000);
@@ -43,19 +39,28 @@ class Main extends Component {
         this.letterGame.current.keyPress(key);
     }
     _handleHit() {
-        this.setState({hits: this.state.hits+1});
+        this.setState({hits: this.state.hits+1}, () => {
+          if (this.state.hits%5==0) {
+              this.addLetter();
+          }
+        });
     }
     _handleMiss() {
         this.setState({miss: this.state.miss+1});
-
-        document.body.classList.add('miss');
-        setTimeout(() => {
-            document.body.classList.remove('miss');
-        }, 100);
+        TweenMax.to(document.body, .3, {
+          className: 'miss',
+          yoyo: true,
+          onComplete: () => {
+            TweenMax.to(document.body, 0.2, {
+              className: 'normal',
+            });
+          },
+        });
     }
     render() {
         return (
             <React.Fragment>
+                <Background />
                 <LetterGame
                     width={this.state.width}
                     height={this.state.height}
@@ -127,6 +132,7 @@ class Main extends Component {
     }
     showToasty() {
         this.toasty.show();
+        this.letterGame.current.destroyAll();
     }
 }
 

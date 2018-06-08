@@ -20,6 +20,9 @@ class LetterGame extends Component {
     _handleMiss(e) {
         this.props.onMiss(e);
     }
+    destroyAll() {
+      this.letterList.current.destroyAll();
+    }
     render() {
         return (
             <React.Fragment>
