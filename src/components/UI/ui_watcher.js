@@ -16,7 +16,9 @@ class uiWatcher extends React.Component {
         return (
             <span
                 className={this.props.className}>
-                    {this.props.label}: {this.props.value}
+                    {this.props.label}
+                    {this.props.label.length>0?':':''}
+                    {this.props.value}
             </span>
         );
     }

@@ -5,7 +5,6 @@ import './letter_game.less';
 class LetterGame extends Component {
     constructor(props) {
         super(props);
-        this.charList = Array.from('abcdefghijklmnopqrstuvwxyz');
         this.letterList = React.createRef();
     }
     addLetter() {
@@ -27,7 +26,6 @@ class LetterGame extends Component {
         return (
             <React.Fragment>
                 <LetterList
-                    charList={this.charList}
                     width={this.props.width}
                     ref={this.letterList}
                     level={this.props.level}

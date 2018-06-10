@@ -20,22 +20,19 @@ class LetterList extends Component {
     }
     destroyAll() {
       this.list.map((letter, i, arr) => {
-          letter.current.destroy();
+         if (letter.current.isActive()) {
+           letter.current.destroy();
+         }
       });
     }
     getRandom(min, max) {
         return Math.floor(Math.random() * (max - min) ) + min;
     }
-    getCharacter() {
-        // eslint-disable-next-line object-curly-spacing
-        const { charList } = this.props;
-        return charList[this.getRandom(0, charList.length)];
-    }
     keyPress(key) {
         let hit = false;
         this.state.letters.some((letter, i, arr) => {
             let Letter = this.list[letter.props.refIndex].current;
-            if (letter.props.character===key && Letter.isActive()) {
+            if (Letter.getCharacter(false)===key && Letter.isActive()) {
                 hit = true;
                 Letter.destroy();
                 this.props.onHit(letter);
@@ -54,13 +51,14 @@ class LetterList extends Component {
         }));
     }
     getLetter(key) {
-        let char = this.getCharacter();
+        // let char = this.getCharacter();
         this.list[key] = React.createRef();
         return <Letter
             maxX={this.props.width}
             key={key}
             refIndex={key}
-            character={char}
+            charList={this.props.charList}
+            // character={char}
             level={this.props.level}
             ref={this.list[key]}
             onComplete={this.props.onMiss.bind(this)}

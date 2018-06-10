@@ -20,6 +20,7 @@ class Main extends Component {
             level: 1,
             hits: 0,
             miss: 0,
+            presses: 0,
         };
         this.keyboard = React.createRef();
         this.letterGame = React.createRef();
@@ -27,6 +28,8 @@ class Main extends Component {
     // constructor
     componentDidMount() {
        this.keyboard.current.focus();
+       this.hits = document.querySelector('.hits');
+       this.miss = document.querySelector('.miss');
        setInterval(()=>{
            this.levelUp();
        }, 30000);
@@ -35,27 +38,50 @@ class Main extends Component {
         this.setState({level: this.state.level+1});
     }
     _handleKey(key) {
-        this.setState({letterPressed: key});
+        this.setState({presses: this.state.presses + 1});
         this.letterGame.current.keyPress(key);
     }
     _handleHit() {
         this.setState({hits: this.state.hits+1}, () => {
-          if (this.state.hits%5==0) {
+          if (this.state.hits%30==0) {
               this.addLetter();
           }
         });
+
+        TweenMax.fromTo([this.hits], 0.1,
+          {scale: 1,
+           border: '0px solid #6bc26b',
+          },
+          {scale: 1.2,
+           border: '3px solid #6bc26b',
+           onComplete: () => {},
+           yoyo: true,
+           repeat: 1,
+          }
+        );
     }
     _handleMiss() {
         this.setState({miss: this.state.miss+1});
-        TweenMax.to(document.body, .3, {
+        TweenMax.to(document.body, .1, {
           className: 'miss',
           yoyo: true,
           onComplete: () => {
-            TweenMax.to(document.body, 0.2, {
+            TweenMax.to(document.body, 0.1, {
               className: 'normal',
             });
           },
         });
+        TweenMax.fromTo([this.miss], 0.1,
+          {scale: 1,
+           border: '0px solid red',
+          },
+          {scale: 1.2,
+           border: '3px solid red',
+           onComplete: () => {},
+           yoyo: true,
+           repeat: 1,
+          }
+        );
     }
     render() {
         return (
@@ -73,13 +99,9 @@ class Main extends Component {
                     ref={a => this.toasty = a}
                 />
                 <div className="hud">
-                    <UiWatcher label={'window width:'}
-                    value={window.innerWidth} />
-                    <UiWatcher label={'level:'}
-                    value={this.state.level} />
-                    <UiWatcher label={'Hits:'}
+                    <UiWatcher className="hits" label={''}
                     value={this.state.hits} />
-                    <UiWatcher label={'Miss:'}
+                    <UiWatcher className="miss" label={''}
                     value={this.state.miss} />
                 </div>
                 <UiKeyboard

@@ -1,4 +1,4 @@
-import {TweenMax, TimelineMax, Expo, Circ} from 'gsap/all';
+import {TweenMax, TimelineMax, Expo, Circ, Elastic} from 'gsap/all';
 
 import React, {Component} from 'react';
 import './letter.less';
@@ -10,83 +10,111 @@ class Letter extends Component {
         this.explode = {};
         this.caer = {};
         this.fontSize = this.getRandom(20, 90);
-        this.explode = new TimelineMax({callbackScope: this});
         this.caer = new TimelineMax({callbackScope: this});
         this.speed = 10;
         this.active = false;
+        this.x = this.getRandom(-550, 550);
+        this.y = this.getRandom(100, 500);
+        this.state = {
+          character: 'a',
+        };
     }
     componentDidMount() {
-        this.caida();
+        this.letter = this.container.current;
+        this.exp = this.letter.querySelector('.exp');
+        this.exp2 = this.letter.querySelector('.exp2');
+        this.a = new TweenMax([this.letter], 1, {});
+        this.aparecer();
     }
     getRandom(min, max) {
         return Math.floor(Math.random() * (max - min) ) + min;
     }
+    getCharacter() {
+        return this.state.character;
+    }
+    changeCharacter() {
+      // eslint-disable-next-line object-curly-spacing
+      const { charList } = this.props;
+      let c = charList[this.getRandom(0, charList.length)];
+      this.setState({character: c}, () => {
+          // this.aparecer();
+      });
+    }
+    aparecer() {
+      this.changeCharacter();
+      this.repoSition();
+      this.active = true;
+      this.a = TweenMax.fromTo([this.letter], 1,
+          {fontSize: 0,
+           x: this.x,
+           y: this.y,
+           opacity: 0,
+          },
+          {fontSize: this.fontSize,
+           x: this.x,
+           y: this.y,
+           opacity: 1,
+           lazy: true,
+           ease: Elastic.easeOut.config(1, 0.3),
+           onComplete: () => {
+             this.caida();
+           },
+          }
+      );
+    }
     caida() {
-        this.active = true;
         this.speed = this.speed>=3?this.speed - 0.08 : 0.5;
-        let x = this.getRandom(-550, 550);
-        this.c = TweenMax.fromTo(
-            [this.container.current],
+        this.c = TweenMax.to(
+            [this.letter],
             this.speed,
-            // from
-            {
-              x: x,
-              y: -35,
-              fontSize: this.getRandom(20, 90),
-            },
-            // to
             {
               y: (document.body.offsetHeight +
                  this.container.current.offsetHeight),
               ease: Circ.easeIn,
-              rotation: `+=${this.getRandom(0.2, 5)*360}`,
+              // rotation: `+=${this.getRandom(0.2, 5)*360}`,
+              delay: this.getRandom(1, 10),
+              onComplete: () => {
+                if (this.isActive()) {
+                  this.props.onComplete(this);
+                  this.aparecer();
+                }
+              },
             },
-        ).delay(this.getRandom(1, 20));
-
-        this.c.eventCallback('onComplete', () => {
-            if (this.isActive()) {
-                this.props.onComplete(this);
-            }
-            this.caida();
-        });
+        );
+    }
+    repoSition() {
+      this.x = this.getRandom(-550, 550);
+      this.y = this.getRandom(100, 500);
     }
     isActive() {
        return this.active;
     }
     destroy() {
-      let letter = this.container.current;
-      this.c.kill({rotation: false}, letter);
-
-      let exp = letter.querySelector('.exp');
-      let exp2 = letter.querySelector('.exp2');
-      let explode = this.explode;
+    //  let explode = this.explode
       this.active = false;
 
-      explode.to([exp, exp2], 0, {
-        width: `${this.fontSize}px`,
-        height: `${this.fontSize}px`,
-        opacity: 1,
-      }, 0.1);
-      explode.set([exp, exp2], {scale: 1});
-      explode.eventCallback('onComplete', () => {
-        this.explode.restart().pause();
-        this.c.pause();
-        this.caida();
-      });
-      // explode2 /////////////////////////
-      explode.to(exp2, 0.5, {
-        scale: 4,
-        border: '5px solid red',
-        opacity: 0,
-        ease: Expo.easeOut,
-      }, 0.2);
-      explode.to(exp, 1.2, {scale: 1.5, ease: Expo.easeOut}, 0);
-      explode.to(exp, 0.5, {backgroundColor: 'yellow'}, 0.3);
-      explode.to(exp, 0.5, {backgroundColor: 'red', opacity: 0}, 0.6);
-      explode.to(letter, 0.2, {opacity: 0}, 0.6);
-      explode.to(letter, 1.2, {scale: 1.4, color: 'yellow', ease: Expo.easeOut}
-      , 0.1);
-      this.explode.play();
+      TweenMax.to([this.letter], 0.1,
+        {fontSize: 0}
+      );
+      TweenMax.fromTo([this.exp], 0.5,
+         {opacity: 1,
+          scale: 1,
+          width: this.fontSize,
+          height: this.fontSize,
+          border: '0px solid #FFFFFF',
+          delay: 1,
+         },
+         {opacity: 0,
+          scale: 2.5,
+          border: '5px solid #FFFFFF',
+          ease: Expo.easeOut,
+          onComplete: () => {
+            this.c.pause();
+            setTimeout(() => {
+              this.aparecer();
+            }, this.getRandom(1000, 5000));
+         },
+       });
     }
     translate(x, y) {
         x=isNaN(x)?0:x;
@@ -107,7 +135,7 @@ class Letter extends Component {
             >
                 <span className="exp2"></span>
                 <span className="exp"></span>
-                {this.props.character}
+                {this.state.character}
             </div>
         );
     }
@@ -117,6 +145,7 @@ Letter.defaultProps = {
     className: 'letter',
     maxX: 0,
     parentHeight: 0,
+    charList: Array.from('abcdefghijklmnopqrstuvwxyz'),
 };
 
 export default Letter;

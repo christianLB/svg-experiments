@@ -6,7 +6,7 @@ html {
         background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
       }
       &.miss {
-        background: radial-gradient(ellipse at bottom, red 0%, orange 100%);
+        background: radial-gradient(ellipse at bottom, red 0%, #090a0f 100%);
       }
     }
 }
@@ -98,5 +98,8 @@ div#sun {
    background-color: #fff;
    margin: 7em auto;
    padding: 7em;
-   box-shadow: 0 0 60px 30px #fbe602, 0 0 100px 60px #e70f14, 0 0 140px 90px #fabc14;
+   box-shadow: 0 0 60px 30px #fbe602;
+   &.on {
+     box-shadow: 0 0 60px 30px #fbe602, 0 0 100px 60px #e70f14, 0 0 140px 90px #fabc14;
+   }
 }
