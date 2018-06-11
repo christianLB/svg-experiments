@@ -7,12 +7,14 @@ class Background extends Component {
         this.background = React.createRef();
     }
     componentDidMount() {
-        TweenMax.set(document.body, {
-          className: '+=normal',
+        TweenMax.set(this.background.current, {
+          width: 2000,
+          height: 2000,
         });
-         TweenMax.to([this.background.current], 300, {
+        TweenMax.to([this.background.current], 300, {
           rotation: 360,
           repeat: -1,
+          transformOrigin: '50% 50%',
         });
         TweenMax.to(['#sun'], 10, {
           className: '+=on',
@@ -21,9 +23,19 @@ class Background extends Component {
           ease: Bounce.easeInOut,
         });
     }
+    blinkRed() {
+        /* TweenMax.to([this.background.current], 0.1,
+            {
+             backgroundColor: 'red',
+             yoyo: true,
+             repeat: 1,
+            },
+        ); */
+    }
     render() {
         return (
             <div className='background' ref={this.background}>
+              <div className="missmask"></div>
               <div id='sun'></div>
               <div id='stars'></div>
               <div id='stars2'></div>

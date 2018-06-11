@@ -1,14 +1,16 @@
 .background {
-}
-html {
-    body {
-      &.normal {
-        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-      }
-      &.miss {
-        background: radial-gradient(ellipse at bottom, red 0%, #090a0f 100%);
-      }
-    }
+  top: -1000px;
+  left: 0px;
+  position: absolute;
+  height: 100vh;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  border-radius: 50%;
+  border: 1px solid red;
+  .missmask {
+    height: 100vh;
+    background-color: red;
+    opacity: 0;
+  }
 }
 #stars {
   width: 1px;

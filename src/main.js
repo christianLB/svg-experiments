@@ -24,18 +24,15 @@ class Main extends Component {
         };
         this.keyboard = React.createRef();
         this.letterGame = React.createRef();
+        this.background = React.createRef();
     }
     // constructor
     componentDidMount() {
        this.keyboard.current.focus();
        this.hits = document.querySelector('.hits');
        this.miss = document.querySelector('.miss');
-       setInterval(()=>{
-           this.levelUp();
-       }, 30000);
-    }
-    levelUp() {
-        this.setState({level: this.state.level+1});
+       // this.missmask = document.querySelector('.missmask');
+       this.background = document.querySelector('.background');
     }
     _handleKey(key) {
         this.setState({presses: this.state.presses + 1});
@@ -61,40 +58,25 @@ class Main extends Component {
         );
     }
     _handleMiss() {
-        this.setState({miss: this.state.miss+1});
-        TweenMax.to(document.body, .1, {
-          className: 'miss',
-          yoyo: true,
-          onComplete: () => {
-            TweenMax.to(document.body, 0.1, {
-              className: 'normal',
-            });
-          },
-        });
-        TweenMax.fromTo([this.miss], 0.1,
-          {scale: 1,
-           border: '0px solid red',
-          },
-          {scale: 1.2,
-           border: '3px solid red',
-           onComplete: () => {},
-           yoyo: true,
-           repeat: 1,
-          }
-        );
+        this.setState({miss: this.state.miss+1}, () => {
+            this.background.current.blinkRed();
+            TweenMax.fromTo([this.miss], 0.1,
+                {scale: 1,
+                 border: '0px solid red',
+                },
+                {scale: 1.2,
+                 border: '3px solid red',
+                 onComplete: () => {},
+                 yoyo: true,
+                 repeat: 1,
+                }
+            );
+        }); // setState
     }
     render() {
         return (
             <React.Fragment>
-                <Background />
-                <LetterGame
-                    width={this.state.width}
-                    height={this.state.height}
-                    ref={this.letterGame}
-                    level={this.state.level}
-                    onHit={this._handleHit.bind(this)}
-                    onMiss={this._handleMiss.bind(this)}
-                />
+                <Background ref={this.background}/>
                 <Toasty
                     ref={a => this.toasty = a}
                 />
@@ -144,6 +126,14 @@ class Main extends Component {
                     on8Key={this.addLetter.bind(this, 800)}
                     on9Key={this.addLetter.bind(this, 900)}
                     on10Key={this.addLetter.bind(this, 1000)}
+                />
+                <LetterGame
+                    width={this.state.width}
+                    height={this.state.height}
+                    ref={this.letterGame}
+                    level={this.state.level}
+                    onHit={this._handleHit.bind(this)}
+                    onMiss={this._handleMiss.bind(this)}
                 />
             </React.Fragment>
         );
