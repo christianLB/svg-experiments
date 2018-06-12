@@ -8,8 +8,8 @@ class Background extends Component {
     }
     componentDidMount() {
         TweenMax.set(this.background.current, {
-          width: 2000,
-          height: 2000,
+          width: 500,
+          height: 500,
         });
         TweenMax.to([this.background.current], 300, {
           rotation: 360,
