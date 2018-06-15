@@ -31,8 +31,6 @@ class Main extends Component {
        this.keyboard.current.focus();
        this.hits = document.querySelector('.hits');
        this.miss = document.querySelector('.miss');
-       // this.missmask = document.querySelector('.missmask');
-       this.background = document.querySelector('.background');
     }
     _handleKey(key) {
         this.setState({presses: this.state.presses + 1});
@@ -76,7 +74,7 @@ class Main extends Component {
     render() {
         return (
             <React.Fragment>
-                <Background ref={this.background}/>
+                <Background ref={this.background} />
                 <Toasty
                     ref={a => this.toasty = a}
                 />

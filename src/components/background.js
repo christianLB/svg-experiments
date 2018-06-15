@@ -7,11 +7,11 @@ class Background extends Component {
         this.background = React.createRef();
     }
     componentDidMount() {
-        TweenMax.set(this.background.current, {
+        /* TweenMax.set(this.background.current, {
           width: 500,
           height: 500,
         });
-        TweenMax.to([this.background.current], 300, {
+        /* TweenMax.to([this.background.current], 300, {
           rotation: 360,
           repeat: -1,
           transformOrigin: '50% 50%',
@@ -21,7 +21,7 @@ class Background extends Component {
           repeat: -1,
           yoyo: true,
           ease: Bounce.easeInOut,
-        });
+        }); */
     }
     blinkRed() {
         /* TweenMax.to([this.background.current], 0.1,
