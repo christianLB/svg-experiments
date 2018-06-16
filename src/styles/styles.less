@@ -2,6 +2,14 @@
 @hudcolor: rgba(0, 0, 0, 0.6);
 @bodybackground: rgba(0, 0, 0, 1);
 @miss: rgba(255, 0, 0, 1);
+html,
+body,
+#app1 {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
 .uidactive() {
     box-shadow:none;
     background-color:#FFFFFF;
@@ -45,14 +53,12 @@
     }
 }
 html {
-    height: 100vh;
     overflow: hidden;
 }
 body {
     color: @uidcolor;
     font-size: 0.8em;
     font-family: sans-serif;
-    height: 100vh;
     margin: 0px;
     overflow:hidden;
     padding: 0px;
@@ -60,18 +66,5 @@ body {
     justify-content: center;
     align-items: center;
 }
-#app1 {
-    height: 100vh;
-    display: flex;
-    justify-self: center;
-    align-self: center;
-    /* display: grid;
-    grid-template-rows:2fr 1fr;
-    grid-template-columns:1fr;
-    grid-template-areas:
-    'background'
-    'uikeyboard'; */
-}
-
 .letter {
 }

@@ -74,7 +74,6 @@ class Main extends Component {
     render() {
         return (
             <React.Fragment>
-                <Background ref={this.background} />
                 <Toasty
                     ref={a => this.toasty = a}
                 />
@@ -133,6 +132,7 @@ class Main extends Component {
                     onHit={this._handleHit.bind(this)}
                     onMiss={this._handleMiss.bind(this)}
                 />
+                <Background ref={this.background} />
             </React.Fragment>
         );
     }
