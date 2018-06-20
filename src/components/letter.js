@@ -63,7 +63,7 @@ class Letter extends Component {
       );
     }
     caida() {
-        this.speed = this.speed>=3?this.speed - 0.08 : 0.5;
+        // this.speed = this.speed>=6?this.speed - 0.08 : 0.5;
         this.c = TweenMax.to(
             [this.letter],
             this.speed,
