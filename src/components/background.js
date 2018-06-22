@@ -7,6 +7,7 @@ class Background extends Component {
         this.background = React.createRef();
         this.stars = React.createRef();
         this.sun = React.createRef();
+        this.sun = React.createRef();
         this.state = {
           stars1: [],
           stars2: [],
