@@ -81,7 +81,7 @@ class Background extends Component {
         return Math.floor(Math.random() * (max - min) ) + min;
     }
     getStars(n) {
-        return Array.from(new Array(n * 100)).map((v, i, ar) => {
+        return Array.from(new Array(n * 80)).map((v, i, ar) => {
             let style = {
               position: 'absolute',
               top: this.getRandom(0, this.background.current.offsetHeight),

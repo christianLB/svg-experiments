@@ -14,33 +14,27 @@ class LetterList extends Component {
         this.list = [];
     }
     componentDidMount() {
-        Array.from(new Array(this.state.maxLetters)).map((x, i) => {
+        Array.from(new Array(this.state.maxLetters)).forEach((x, i) => {
             this.addLetter();
         });
     }
     destroyAll() {
-      this.list.map((letter, i, arr) => {
-         if (letter.current.isActive()) {
-           letter.current.destroy();
-         }
-      });
+      this.list.filter(letter => letter.current.isActive())
+        .forEach(letter => letter.current.destroy());
     }
     getRandom(min, max) {
         return Math.floor(Math.random() * (max - min) ) + min;
     }
     keyPress(key) {
-        let hit = false;
-        this.state.letters.some((letter, i, arr) => {
-            let Letter = this.list[letter.props.refIndex].current;
-            if (Letter.getCharacter(false)===key && Letter.isActive()) {
-                hit = true;
-                Letter.destroy();
-                this.props.onHit(letter);
-            }
+        let letters = this.list.filter(letter => {
+          return letter.current.getCharacter(false)===key
+                 && letter.current.isActive();
         });
-        if (!hit) {
-            this.props.onMiss(key);
-        }
+        letters.forEach(letter => {
+            letter.current.destroy();
+            this.props.onHit(letter);
+        });
+        letters.length<=0?this.props.onMiss(key):(void(0));
     }
     addLetter() {
         this.setState(prevState => ({
