@@ -34,7 +34,7 @@ class Background extends Component {
           yoyo: true,
           ease: Bounce.easeInOut,
         }); */
-        this.toDay();
+        // this.toDay();
         /* TweenMax.to([this.stars.current], 2, {
           opacity: 0,
           repeat: -1,
@@ -43,8 +43,18 @@ class Background extends Component {
         }); */
     }
     blinkRed() {
-        this.tl.pause();
-        TweenMax.to([this.background.current], 0.1,
+        // this.tl.pause();
+        TweenMax.fromTo([this.background.current], 0.1,
+          {background: ''},
+          {background: 'rgba(255, 0, 0, 0.5)',
+           yoyo: true,
+           repeat: 1,
+           onComplete: () => {
+             // this.tl.resume();
+           },
+          }
+        );
+        /* TweenMax.to([this.background.current], 0.1,
             {
               className: '+=miss',
               yoyo: true,
@@ -53,7 +63,7 @@ class Background extends Component {
                 this.tl.resume();
               },
             }
-        );
+        );*/
     }
     toDay() {
       this.tl = new TimelineMax({

@@ -51,6 +51,13 @@ class UiKeyboard extends React.Component {
         this.keys[88] = {key: 'x', event: 'onxKey', keyLabel: 'x'};
         this.keys[89] = {key: 'y', event: 'onyKey', keyLabel: 'y'};
         this.keys[90] = {key: 'z', event: 'onzKey', keyLabel: 'z'};
+
+        document.addEventListener('keyup', e => {
+          this._keyUp(e);
+        }, false);
+        document.addEventListener('keydown', e => {
+          this._keyDown(e);
+        }, false);
     }
     _keyDown(e) {
         let keyPressed = this.keys[e.keyCode];
@@ -83,21 +90,7 @@ class UiKeyboard extends React.Component {
     focus() {
         this.htmlContainer.current.focus();
     }
-    render() {
-        return (
-                <div className={
-                        `${this.props.className} ${this.state.keyPressed.key}`
-                    }
-                    onKeyDown={this._keyDown.bind(this)}
-                    onKeyUp={this._keyUp.bind(this)}
-                    tabIndex={1}
-                    onBlur={this.blur.bind(this)}
-                    ref={this.htmlContainer}
-                >
-                    {this.getKeys()}
-                </div>
-        );
-    }
+    render = () => null
 }
 
 UiKeyboard.defaultProps = {

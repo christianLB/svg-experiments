@@ -5,6 +5,9 @@ import './letter_game.less';
 class LetterGame extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+          paused: false,
+        },
         this.letterList = React.createRef();
     }
     addLetter() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import {TweenMax, Power4} from 'gsap/all';
 import './toasty.less';
 
 class Toasty extends React.Component {
@@ -9,24 +10,34 @@ class Toasty extends React.Component {
             className: this.props.className,
         };
         this.audio = new Audio('./src/components/misc/toasty.mp3');
+        this.container = React.createRef();
     }
     setStyle(style) {
         this.setState({style: Object.assign({}, this.state.style, style)});
     }
     show() {
         this.audio.play();
-        this.setState({className: ['toasty', 'on']});
-        setTimeout(() => {
-            this.hide();
-        }, 1000);
-    }
-    hide() {
-        this.setState({className: ['toasty']});
+        TweenMax.set([this.container.current], 0, {opacity: 1});
+        TweenMax.fromTo([this.container.current], 0.5,
+          // from
+          {right: -this.container.current.offsetWidth,
+          },
+          // to
+          {right: 0,
+            yoyo: true,
+          ease: Power4.easeOut,
+            repeatDelay: 0.1,
+            repeat: 1,
+            onComplete: () => {
+              TweenMax.set([this.container.current], 0, {opacity: 0});
+            },
+          });
     }
     render() {
         return (
             <div className={this.state.className.join(' ')}
-                 style={this.state.style}>
+                 style={this.state.style}
+                 ref={this.container}>
             </div>
         );
     }
@@ -37,9 +48,9 @@ Toasty.defaultProps = {
     className: ['toasty'],
 
     style: {
-        transitionProperty: 'all',
+        /* transitionProperty: 'all',
         transitionDuration: '200ms',
-        transitionTimingFunction: 'linear',
+        transitionTimingFunction: 'linear', */
         position: 'absolute',
         width: '200px',
         height: '200px',
