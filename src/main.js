@@ -22,13 +22,12 @@ class Main extends Component {
             miss: 0,
             presses: 0,
         };
-        this.keyboard = React.createRef();
         this.letterGame = React.createRef();
         this.background = React.createRef();
+        this.gameContainer = React.createRef();
     }
     // constructor
     componentDidMount() {
-       this.keyboard.current.focus();
        this.hits = document.querySelector('.hits');
        this.miss = document.querySelector('.miss');
     }
@@ -78,8 +77,9 @@ class Main extends Component {
         }); // setState
     }
     render() {
+        const {gameContainer} = this;
         return (
-            <React.Fragment>
+            <div name="game" ref={gameContainer}>
                 <Toasty
                     ref={a => this.toasty = a}
                 />
@@ -90,7 +90,7 @@ class Main extends Component {
                     value={this.state.miss} />
                 </div>
                 <UiKeyboard
-                    ref={this.keyboard}
+                    target={gameContainer}
                     onaKey={this._handleKey.bind(this, 'a')}
                     onbKey={this._handleKey.bind(this, 'b')}
                     oncKey={this._handleKey.bind(this, 'c')}
@@ -139,7 +139,7 @@ class Main extends Component {
                     onMiss={this._handleMiss.bind(this)}
                 />
                 <Background ref={this.background} />
-            </React.Fragment>
+            </div>
         );
     }
     addLetter() {

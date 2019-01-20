@@ -8,7 +8,6 @@ class UiKeyboard extends React.Component {
         this.state = {
             keyPressed: {key: ''},
         };
-        this.htmlContainer = React.createRef();
         this.keys = [];
         this.keys[32] = {key: 'kspace', event: 'onspaceKey', keyLabel: 'down'};
         this.keys[37] = {key: 'kleft', event: 'onleftKey', keyLabel: 'left'};
@@ -59,6 +58,14 @@ class UiKeyboard extends React.Component {
           this._keyDown(e);
         }, false);
     }
+
+    componentDidUpdate() {
+        const {target} = this.props;
+        if (target.current) {
+          this.focus();
+        }
+    }
+
     _keyDown(e) {
         let keyPressed = this.keys[e.keyCode];
         if (keyPressed) {
@@ -88,9 +95,12 @@ class UiKeyboard extends React.Component {
         this.focus();
     }
     focus() {
-        this.htmlContainer.current.focus();
+        const {target} = this.props;
+        target.current.focus();
     }
-    render = () => null
+    render() {
+      return null;
+    }
 }
 
 UiKeyboard.defaultProps = {
