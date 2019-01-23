@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {Stage} from 'react-pixi-fiber';
+
 import Toasty from './components/misc/toasty';
+import Toasty2 from './components/toasty';
 import UiKeyboard from './components/UI/ui_keyboard/ui_keyboard';
 import UiWatcher from './components/UI/ui_watcher';
 import LetterGame from './components/letter_game';
 import Background from './components/background';
 import {TweenMax} from 'gsap/all';
-
+// import Bunny from './aassets/Toasty.png';
 
 import './styles/styles.less';
 
@@ -80,6 +83,10 @@ class Main extends Component {
         const {gameContainer} = this;
         return (
             <div name="game" ref={gameContainer}>
+              <Stage width={800} height={600}
+                >
+                  <Toasty2 x={0} y={0} />
+              </Stage>
                 <Toasty
                     ref={a => this.toasty = a}
                 />
